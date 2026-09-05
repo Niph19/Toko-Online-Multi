@@ -28,6 +28,16 @@
                         >
                             Dashboard
                         </a>
+<form method="POST" action="{{ route('logout') }}">
+    @csrf
+
+    <button type="submit" 
+            onclick="event.preventDefault(); this.closest('form').submit();" 
+            class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none transition ease-in-out duration-150">
+        {{ __('Log Out') }}
+    </button>
+</form>
+
                     @else
                         <a
                             href="{{ route('login') }}"
