@@ -2,63 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produk;
+use App\Models\Pesanan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SellerDashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
-    }
+        $toko = Auth::user()->toko;
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        if (!$toko) {
+            abort(403, 'Toko tidak ditemukan.');
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $totalProduk = Produk::where('toko_id', $toko->id)->count();
+        $totalPesanan = Pesanan::where('toko_id', $toko->id)->count();
+        $pesananMenunggu = Pesanan::where('toko_id', $toko->id)->where('status', 'menunggu konfirmasi')->count();
+        $totalPendapatan = Pesanan::where('toko_id', $toko->id)->where('status', 'selesai')->sum('total_harga');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('seller.dashboard', compact('toko', 'totalProduk', 'totalPesanan', 'pesananMenunggu', 'totalPendapatan'));
     }
 }

@@ -2,63 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pesanan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SellerPesananController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $tokoId = Auth::user()->toko->id;
+        $pesanans = Pesanan::where('toko_id', $tokoId)
+            ->with(['user', 'detailPesanan.produk'])
+            ->latest()
+            ->get();
+
+        return view('seller.pesanan.index', compact('pesanans'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function show($id)
     {
-        //
+        $tokoId = Auth::user()->toko->id;
+        $pesanan = Pesanan::where('toko_id', $tokoId)
+            ->with(['user', 'detailPesanan.produk'])
+            ->findOrFail($id);
+
+        return view('seller.pesanan.show', compact('pesanan'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function updateStatus(Request $request, $id)
     {
-        //
-    }
+        $tokoId = Auth::user()->toko->id;
+        $pesanan = Pesanan::where('toko_id', $tokoId)->findOrFail($id);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $request->validate([
+            'status' => 'required|in:menunggu konfirmasi,diproses,dikirim,selesai',
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        $pesanan->update(['status' => $request->status]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui!');
     }
 }

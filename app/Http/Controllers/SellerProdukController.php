@@ -2,63 +2,87 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SellerProdukController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $tokoId = Auth::user()->toko->id;
+        $produks = Produk::where('toko_id', $tokoId)->latest()->get();
+
+        return view('seller.produk.index', compact('produks'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('seller.produk.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'harga' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+            'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|string',
+        ]);
+
+        $tokoId = Auth::user()->toko->id;
+
+        Produk::create([
+            'toko_id' => $tokoId,
+            'nama_produk' => $request->nama_produk,
+            'harga' => $request->harga,
+            'stok' => $request->stok,
+            'deskripsi' => $request->deskripsi,
+            'foto' => $request->foto,
+        ]);
+
+        return redirect()->route('seller.produk.index')->with('success', 'Produk berhasil ditambahkan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $tokoId = Auth::user()->toko->id;
+        $produk = Produk::where('toko_id', $tokoId)->findOrFail($id);
+
+        return view('seller.produk.edit', compact('produk'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $tokoId = Auth::user()->toko->id;
+        $produk = Produk::where('toko_id', $tokoId)->findOrFail($id);
+
+        $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'harga' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+            'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|string',
+        ]);
+
+        $produk->update([
+            'nama_produk' => $request->nama_produk,
+            'harga' => $request->harga,
+            'stok' => $request->stok,
+            'deskripsi' => $request->deskripsi,
+            'foto' => $request->foto,
+        ]);
+
+        return redirect()->route('seller.produk.index')->with('success', 'Produk berhasil diperbarui!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $tokoId = Auth::user()->toko->id;
+        $produk = Produk::where('toko_id', $tokoId)->findOrFail($id);
+        $produk->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('seller.produk.index')->with('success', 'Produk berhasil dihapus!');
     }
 }
