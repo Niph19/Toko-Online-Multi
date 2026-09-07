@@ -10,7 +10,7 @@
                 Dukung Produk Lokal <br><span class="text-orange-500">Pasar Digital Nusantara</span>
             </h1>
             <p class="text-gray-300 text-base sm:text-lg mb-8 max-w-xl">
-                Temukan aneka karya kerajinan, tenun, dan produk olahan unggulan langsung dari perajin dan pelaku usaha mikro di seluruh wilayah nusantara.
+                Temukan berbagai produk lokal berkualitas dari UMKM di seluruh Indonesia. Jelajahi, dukung, dan belanja produk unik yang dibuat dengan cinta oleh para pengrajin lokal.
             </p>
             <div class="flex space-x-4">
                 <a href="#produk-toko" class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-6 py-3 rounded-lg shadow transition">
@@ -18,7 +18,7 @@
                 </a>
                 @guest
                     <a href="{{ route('register.toko') }}" class="bg-gray-800 hover:bg-gray-700 text-white font-medium px-6 py-3 rounded-lg border border-gray-700 transition">
-                        Buka Toko Gratis
+                        Buka Toko
                     </a>
                 @endguest
             </div>

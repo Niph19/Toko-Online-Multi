@@ -22,10 +22,6 @@
                             <a href="{{ route('seller.dashboard') }}" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 {{ request()->routeIs('seller.*') ? 'text-orange-500 font-semibold border-b-2 border-orange-500' : 'text-gray-600 hover:text-gray-900' }}">
                                 Dashboard Seller
                             </a>
-                        @elseif(auth()->user()->role === 'admin')
-                            <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 {{ request()->routeIs('admin.*') ? 'text-orange-500 font-semibold border-b-2 border-orange-500' : 'text-gray-600 hover:text-gray-900' }}">
-                                Dashboard Admin
-                            </a>
                         @endif
                     @endauth
                 </div>
@@ -71,8 +67,6 @@
                                     <a href="{{ route('pesanan.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500">Pesanan Saya</a>
                                 @elseif(Auth::user()->role === 'seller')
                                     <a href="{{ route('seller.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500">Dashboard Toko</a>
-                                @elseif(Auth::user()->role === 'admin')
-                                    <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500">Panel Admin</a>
                                 @endif
                             </div>
                             <div class="py-1">
@@ -113,8 +107,6 @@
                     <a href="{{ route('pesanan.index') }}" class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50">Pesanan Saya</a>
                 @elseif(auth()->user()->role === 'seller')
                     <a href="{{ route('seller.dashboard') }}" class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50">Dashboard Seller</a>
-                @elseif(auth()->user()->role === 'admin')
-                    <a href="{{ route('admin.dashboard') }}" class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50">Dashboard Admin</a>
                 @endif
             @endauth
         </div>

@@ -12,38 +12,21 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin
-        User::create([
-            'name' => 'Admin Pasar Digital',
-            'email' => 'admin@pasardigital.id',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-        ]);
-
-        // Buyer
-        User::create([
-            'name' => 'Budi Pembeli',
-            'email' => 'budi@gmail.com',
-            'password' => Hash::make('password'),
-            'role' => 'buyer',
-        ]);
-
         // Seller 1 (Toko Aktif)
-        $seller1 = User::create([
+        $seller1 = User::updateOrCreate(['email' => 'siti@kriya.id'], [
             'name' => 'Siti Kriya',
-            'email' => 'siti@kriya.id',
             'password' => Hash::make('password'),
             'role' => 'seller',
         ]);
 
-        $toko1 = Toko::create([
+        $toko1 = Toko::updateOrCreate(['user_id' => $seller1->id], [
             'user_id' => $seller1->id,
             'nama_toko' => 'Kriya Nusantara',
             'deskripsi' => 'Kerajinan tangan khas nusantara berbahan bambu dan kayu pilihan.',
             'status' => 'aktif',
         ]);
 
-        Produk::create([
+        Produk::updateOrCreate(['toko_id' => $toko1->id, 'nama_produk' => 'Tas Anyaman Bambu'], [
             'toko_id' => $toko1->id,
             'nama_produk' => 'Tas Anyaman Bambu',
             'deskripsi' => 'Tas anyaman bambu handmade berkualitas tinggi dan ramah lingkungan.',
@@ -52,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'foto' => 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500&auto=format&fit=crop&q=60',
         ]);
 
-        Produk::create([
+        Produk::updateOrCreate(['toko_id' => $toko1->id, 'nama_produk' => 'Ukiran Kayu Jati'], [
             'toko_id' => $toko1->id,
             'nama_produk' => 'Ukiran Kayu Jati',
             'deskripsi' => 'Hiasan dinding ukiran kayu jati motif batik Jawa.',
@@ -62,21 +45,20 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Seller 2 (Toko Aktif)
-        $seller2 = User::create([
+        $seller2 = User::updateOrCreate(['email' => 'rudi@tenun.id'], [
             'name' => 'Rudi Tenun',
-            'email' => 'rudi@tenun.id',
             'password' => Hash::make('password'),
             'role' => 'seller',
         ]);
 
-        $toko2 = Toko::create([
+        $toko2 = Toko::updateOrCreate(['user_id' => $seller2->id], [
             'user_id' => $seller2->id,
             'nama_toko' => 'Tenun Ikat Garut',
             'deskripsi' => 'Kain tenun asli buatan perajin lokal dengan bahan serat alami.',
             'status' => 'aktif',
         ]);
 
-        Produk::create([
+        Produk::updateOrCreate(['toko_id' => $toko2->id, 'nama_produk' => 'Kain Tenun Jepara'], [
             'toko_id' => $toko2->id,
             'nama_produk' => 'Kain Tenun Jepara',
             'deskripsi' => 'Kain tenun ikat tradisional dengan pewarna alami.',
@@ -85,19 +67,5 @@ class DatabaseSeeder extends Seeder
             'foto' => 'https://images.unsplash.com/photo-1606744888344-493238951221?w=500&auto=format&fit=crop&q=60',
         ]);
 
-        // Seller 3 (Toko Menunggu Approval)
-        $seller3 = User::create([
-            'name' => 'Ahmad Batik',
-            'email' => 'ahmad@batik.id',
-            'password' => Hash::make('password'),
-            'role' => 'seller',
-        ]);
-
-        Toko::create([
-            'user_id' => $seller3->id,
-            'nama_toko' => 'Batik Solo Barokah',
-            'deskripsi' => 'Batik tulis & cap khas Surakarta.',
-            'status' => 'menunggu',
-        ]);
     }
 }

@@ -25,11 +25,11 @@ class CheckStoreActive
         $status = $user->toko->status;
 
         if ($status === 'menunggu') {
-            abort(403, 'Toko Anda masih dalam proses peninjauan oleh Admin. Harap tunggu persetujuan.');
+            abort(403, 'Toko Anda masih dalam proses verifikasi. Harap tunggu hingga statusnya aktif.');
         }
 
         if ($status === 'nonaktif') {
-            abort(403, 'Toko Anda telah dinonaktifkan oleh Admin. Silakan hubungi dukungan.');
+            abort(403, 'Toko Anda telah dinonaktifkan. Silakan hubungi dukungan.');
         }
         return $next($request);
     }

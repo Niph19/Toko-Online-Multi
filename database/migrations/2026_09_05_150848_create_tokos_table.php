@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nama_toko');
             $table->text('deskripsi')->nullable();
-            $table->enum('status', ['menunggu', 'aktif', 'nonaktif'])->default('menunggu');
+            $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
             $table->timestamps();
         });
     }

@@ -34,7 +34,7 @@ class CartController extends Controller
     {
         $request->validate([
             'produk_id' => 'required|exists:produk,id',
-            'jumlah' => 'nullable|integer|min:1',
+            'jumlah' => 'required|integer|min:1|max:' . $produk->stok,
         ]);
 
         $produk = Produk::with('toko')->findOrFail($request->produk_id);

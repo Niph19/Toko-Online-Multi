@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class toko extends Model
 {
+    protected $table = 'tokos';
     protected $fillable = [
         'user_id',
         'nama_toko',

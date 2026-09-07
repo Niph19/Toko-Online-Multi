@@ -53,6 +53,6 @@ class StoreRegistrationController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('seller.dashboard')->with('info', 'Pendaftaran toko berhasil. Akun Anda sedang dalam peninjauan admin.');
+        return redirect()->route('seller.dashboard')->with('info', 'Pendaftaran toko berhasil. Akun Anda sedang diproses.');
     }
 }
