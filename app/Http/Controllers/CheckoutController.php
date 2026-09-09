@@ -13,7 +13,13 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         if (!Auth::check()) {
+            session()->forget('cart');
+
             return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
+        }
+
+        if (Auth::user()->role !== 'buyer') {
+            abort(403, 'Hanya pembeli yang dapat melakukan checkout.');
         }
 
         $cart = session()->get('cart', []);

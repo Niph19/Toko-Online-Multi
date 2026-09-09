@@ -63,6 +63,7 @@ Build a Laravel-based multi-seller marketplace platform. Multiple UMKM sellers e
 | **Penjual (Seller)** | Registers a store, manages own products, views and processes own incoming orders only. |
 | **Pembeli (Buyer)** | Browses products from all stores, adds to cart, checks out, tracks own order status. |
 
+> Admin tersedia sebagai dashboard operasional, bukan sebagai role user. Dashboard admin dilindungi oleh autentikasi dan tidak menambah nilai `admin` ke kolom role.
 
 ---
 
@@ -142,11 +143,17 @@ Implement as a **session-based cart** (no DB table needed). Each cart item store
 ### Seller Flow
 
 1. Seller registers via `/daftar-toko` — fills user account data + store data. Store `status` is set to `menunggu`.
-2. Store verification completes → `status` changes to `aktif`. Seller can now access dashboard.
+2. Dashboard admin approves the store → `status` changes to `aktif`. Seller can now access dashboard.
 3. Seller logs in and lands on `/seller/dashboard`.
 4. Seller manages own products via `/seller/produk` — full CRUD, scoped to `toko_id` owned by the logged-in user.
 5. Seller views incoming orders at `/seller/pesanan` — only orders where `pesanan.toko_id = seller's toko.id`.
 6. Seller updates order status (`diproses` → `dikirim` → `selesai`) via status update form on order detail page.
+
+### Admin Flow
+
+1. Admin logs in and lands on `/admin/dashboard`.
+2. Admin views pending store registrations at `/admin/toko` and approves or rejects them.
+3. Admin can monitor all transactions across all stores.
 
 ---
 
@@ -177,6 +184,13 @@ Implement as a **session-based cart** (no DB table needed). Each cart item store
 - `GET /seller/pesanan/{id}` — order detail.
 - `PUT /seller/pesanan/{id}/status` — update order status.
 
+### Admin (middleware: auth)
+- `GET /admin/dashboard` — platform overview.
+- `GET /admin/toko` — list all stores with status filter.
+- `PUT /admin/toko/{id}/approve` — set store status to `aktif`.
+- `PUT /admin/toko/{id}/reject` — set store status to `nonaktif`.
+- `GET /admin/pesanan` — all orders across all stores.
+
 ---
 
 ## Middleware
@@ -198,7 +212,7 @@ Apply `auth` middleware (built-in) as the outer gate. Role middleware is applied
 - **Order splitting:** In `CheckoutController@store`, group `session('cart')` by `toko_id`. Loop through each group, create one `Pesanan`, then bulk-insert `DetailPesanan` rows for that group. Wrap in `DB::transaction()`.
 - **Price snapshot:** Store `harga_satuan` in `detail_pesanan` at checkout time — do not rely on `produk.harga` for order history, as prices may change.
 - **Scoping seller data:** Every seller query must include `->where('toko_id', auth()->user()->toko->id)` or use a route model binding that validates ownership. Never trust a user-supplied ID alone.
-- **Store registration:** The `/daftar-toko` route creates both a `User` (role=seller) and a `Toko` (status=menunggu) in one transaction. Log the user in after creation but restrict dashboard access until the store is active.
+- **Store registration:** The `/daftar-toko` route creates both a `User` (role=seller) and a `Toko` (status=menunggu) in one transaction. Log the user in after creation but restrict dashboard access until store is approved.
 - **Session cart structure:**
   ```php
   // session('cart') shape

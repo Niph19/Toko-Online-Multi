@@ -11,7 +11,7 @@ class CartController extends Controller
     public function index()
     {
         $cart = session()->get('cart', []);
-        
+
         $groupedCart = [];
         foreach ($cart as $item) {
             $tokoId = $item['toko_id'];
@@ -33,11 +33,6 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
-        if (auth() != 'role:buyer' || auth() != 'role:seller') {
-            return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
-        }
-        else {
-
         $request->validate([
             'produk_id' => 'required|exists:produks,id',
         ]);
@@ -66,7 +61,7 @@ class CartController extends Controller
         session()->put('cart', $cart);
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang!');
-        }
+
     }
 
     public function remove($produk_id)
