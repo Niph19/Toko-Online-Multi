@@ -44,7 +44,7 @@ class CheckoutController extends Controller
                 $pesanan = Pesanan::create([
                     'user_id' => $userId,
                     'toko_id' => $tokoId,
-                    'status' => 'menunggu konfirmasi',
+                    'status' => 'menunggu',
                     'total_harga' => $totalHarga,
                 ]);
 

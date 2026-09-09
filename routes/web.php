@@ -11,6 +11,7 @@ use App\Http\Controllers\SellerPesananController;
 
 // Public Routes
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::post('/keranjang/tambah', [CartController::class, 'add'])->name('keranjang.tambah');
 
 // Buyer Routes
 Route::middleware(['auth', 'role:buyer'])->group(function () {
@@ -18,7 +19,6 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
     Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');
     Route::get('/pesanan/{id}', [PesananController::class, 'show'])->name('pesanan.show');
     Route::get('/keranjang', [CartController::class, 'index'])->name('keranjang.index');
-    Route::post('/keranjang/tambah', [CartController::class, 'add'])->name('keranjang.tambah');
     Route::delete('/keranjang/{produk_id}', [CartController::class, 'remove'])->name('keranjang.hapus');
 });
 

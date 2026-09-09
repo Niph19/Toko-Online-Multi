@@ -19,7 +19,7 @@
 
         <!-- Flash Messages -->
         @if (session('success'))
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 w-full">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-4 w-full">
                 <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg shadow-sm flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
