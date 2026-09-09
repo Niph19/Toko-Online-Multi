@@ -26,13 +26,13 @@ class SellerProdukController extends Controller
         $request->validate([
             'nama_produk' => 'required|string|max:255',
             'harga' => 'required|numeric|min:0',
-            'stok' => 'required|integer|min:0',
+            'stok' => 'required|integer|min:1',
             'deskripsi' => 'nullable|string',
             'foto' => 'nullable|string',
         ]);
 
         $tokoId = Auth::user()->toko->id;
-
+            
         Produk::create([
             'toko_id' => $tokoId,
             'nama_produk' => $request->nama_produk,

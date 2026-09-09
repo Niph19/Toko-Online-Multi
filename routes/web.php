@@ -25,10 +25,13 @@ Route::middleware(['auth', 'role:buyer'])->group(function () {
     Route::get('/pesanan/{id}', [PesananController::class, 'show'])->name('pesanan.show');
 });
 
-// Seller Routes
-Route::middleware(['auth', 'role:seller', 'store.active'])->prefix('seller')->name('seller.')->group(function () {
+// Seller dashboard remains available while the store is awaiting verification.
+Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->group(function () {
     Route::get('/dashboard', [SellerDashboardController::class, 'index'])->name('dashboard');
+});
 
+// Seller management routes require an active store.
+Route::middleware(['auth', 'role:seller', 'store.active'])->prefix('seller')->name('seller.')->group(function () {
     // Produk CRUD
     Route::get('/produk', [SellerProdukController::class, 'index'])->name('produk.index');
     Route::get('/produk/create', [SellerProdukController::class, 'create'])->name('produk.create');

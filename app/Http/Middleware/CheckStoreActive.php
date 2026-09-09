@@ -19,17 +19,17 @@ class CheckStoreActive
         $user = Auth::user();
 
         if (!$user || !$user->toko) {
-            abort(403, 'Anda belum mendaftarkan toko.');
+            return redirect()->route('seller.dashboard')->with('warning', 'Anda belum mendaftarkan toko.');
         }
 
         $status = $user->toko->status;
 
         if ($status === 'menunggu') {
-            abort(403, 'Toko Anda masih dalam proses verifikasi. Harap tunggu hingga statusnya aktif.');
+            return redirect()->route('seller.dashboard')->with('warning', 'Toko Anda masih menunggu konfirmasi.');
         }
 
         if ($status === 'nonaktif') {
-            abort(403, 'Toko Anda telah dinonaktifkan. Silakan hubungi dukungan.');
+            return redirect()->route('seller.dashboard')->with('warning', 'Toko Anda sedang nonaktif. Silakan hubungi dukungan.');
         }
         return $next($request);
     }

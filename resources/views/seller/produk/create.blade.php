@@ -28,7 +28,7 @@
 
             <div>
                 <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">URL Foto Produk (Optional)</label>
-                <input type="url" name="foto" class="w-full border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500" placeholder="https://images.unsplash.com/photo-...">
+                <input type="url" name="foto" id="foto" class="w-full border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500" placeholder="https://images.unsplash.com/photo-...">
             </div>
 
             <div>

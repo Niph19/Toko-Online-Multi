@@ -19,7 +19,7 @@ class SellerDashboardController extends Controller
 
         $totalProduk = Produk::where('toko_id', $toko->id)->count();
         $totalPesanan = Pesanan::where('toko_id', $toko->id)->count();
-        $pesananMenunggu = Pesanan::where('toko_id', $toko->id)->where('status', 'menunggu konfirmasi')->count();
+        $pesananMenunggu = Pesanan::where('toko_id', $toko->id)->where('status', 'menunggu')->count();
         $totalPendapatan = Pesanan::where('toko_id', $toko->id)->where('status', 'selesai')->sum('total_harga');
 
         return view('seller.dashboard', compact('toko', 'totalProduk', 'totalPesanan', 'pesananMenunggu', 'totalPendapatan'));

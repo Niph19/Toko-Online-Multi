@@ -16,9 +16,11 @@
                     <span class="text-orange-500 font-black">{{ auth()->user()->toko->nama_toko ?? 'Toko Saya' }}</span>
                 </a>
                 <nav class="hidden md:flex space-x-6 text-sm font-medium">
-                    <a href="{{ route('seller.dashboard') }}" class="{{ request()->routeIs('seller.dashboard') ? 'text-orange-500 border-b-2 border-orange-500 pb-5 pt-5 font-semibold' : 'text-gray-600 hover:text-gray-900' }}">Dashboard</a>
-                    <a href="{{ route('seller.produk.index') }}" class="{{ request()->routeIs('seller.produk.*') ? 'text-orange-500 border-b-2 border-orange-500 pb-5 pt-5 font-semibold' : 'text-gray-600 hover:text-gray-900' }}">Produk Toko</a>
-                    <a href="{{ route('seller.pesanan.index') }}" class="{{ request()->routeIs('seller.pesanan.*') ? 'text-orange-500 border-b-2 border-orange-500 pb-5 pt-5 font-semibold' : 'text-gray-600 hover:text-gray-900' }}">Pesanan Masuk</a>
+                    <a href="{{ route('seller.dashboard') }}" class="{{ request()->routeIs('seller.dashboard') ? 'text-orange-500 border-b-2 border-orange-500 pb-5 pt-5 font-semibold' : 'text-gray-600 hover:text-gray-900 pb-5 pt-5 font-semibold' }}">Dashboard</a>
+                    @if(auth()->user()->toko?->status === 'aktif')
+                        <a href="{{ route('seller.produk.index') }}" class="{{ request()->routeIs('seller.produk.*') ? 'text-orange-500 border-b-2 border-orange-500 pb-5 pt-5 font-semibold' : 'text-gray-600 hover:text-gray-900 pb-5 pt-5 font-semibold' }}">Produk Toko</a>
+                        <a href="{{ route('seller.pesanan.index') }}" class="{{ request()->routeIs('seller.pesanan.*') ? 'text-orange-500 border-b-2 border-orange-500 pb-5 pt-5 font-semibold' : 'text-gray-600 hover:text-gray-900 pb-5 pt-5 font-semibold' }}">Pesanan Masuk</a>
+                    @endif
                 </nav>
             </div>
             <div class="flex items-center space-x-4">
@@ -35,6 +37,14 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 w-full">
             <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg shadow-sm text-sm text-green-700 font-medium">
                 {{ session('success') }}
+            </div>
+        </div>
+    @endif
+
+    @if (session('warning'))
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 w-full">
+            <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded-r-lg shadow-sm text-sm text-orange-800 font-medium">
+                {{ session('warning') }}
             </div>
         </div>
     @endif
